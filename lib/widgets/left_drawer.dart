@@ -39,7 +39,7 @@ class LeftDrawer extends StatelessWidget {
               ],
             ),
           ),
-            ListTile(
+          ListTile(
             leading: const Icon(Icons.home_outlined),
             title: const Text('Halaman Utama'),
             // Bagian redirection ke MyHomePage

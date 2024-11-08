@@ -20,7 +20,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Form Tambah Item Kamu Hari ini',
+            'Tambah Produk Kamu Hari Ini!',
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
