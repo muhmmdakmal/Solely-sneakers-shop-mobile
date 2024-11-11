@@ -237,3 +237,114 @@ Hanya variabel-variabel dalam State yang dideklarasikan dalam widget Stateful ya
     ```
 
 </details>
+
+##
+<details>
+    <summary>Tugas 8: Flutter Navigation, Layouts, Forms, and Input Elements</summary>
+
+**1.Apa kegunaan const di Flutter? Jelaskan apa keuntungan ketika menggunakan const pada kode Flutter. Kapan sebaiknya kita menggunakan const, dan kapan sebaiknya tidak digunakan?**
+
+- Apa kegunaan const di Flutter?
+
+    const digunakan untuk mendefinisikan objek atau widget yang bersifat konstan, artinya nilainya tidak akan berubah selama aplikasi berjalan.
+
+- Keuntungan menggunakan const:
+    
+    - Efisiensi Memori: Objek const tidak akan dibuat ulang setiap kali diperlukan, sehingga menghemat memori. Misalnya, kalau ada widget yang sering muncul, cukup buat satu kali, dan sisanya Flutter akan memanfaatkan instance yang sudah ada.
+    - Performa Render: Karena objek const hanya dibuat sekali, widget yang memakai const tidak akan di-rebuild (dibuat ulang) setiap kali aplikasi berubah atau ada state baru, kecuali benar-benar diperlukan. Hal ini bikin UI lebih responsif dan performa lebih stabil.
+    - Code Readability: Dengan menggunakan const, kita bisa memberikan petunjuk ke developer lain kalau objek tersebut tidak akan berubah. Jadi, kode jadi lebih jelas dan terstruktur.
+
+- Kapan sebaiknya kita menggunakan const:
+    
+    - Widget Statik: Kalau kita punya widget yang tidak akan berubah selama aplikasi berjalan, seperti Text, Container dengan warna latar yang tetap, atau ikon, gunakan const.
+    - Immutable Object: Ketika kita tahu objek tersebut tidak akan mengalami perubahan atau tidak punya dependensi dinamis, gunakan const untuk membuatnya efisien.
+
+- Kapan sebaiknya tidak menggunakan const:
+
+    - Dependensi Dinamis: Kalau widget atau objek bergantung pada nilai yang akan berubah, seperti hasil input pengguna atau data dari API, jangan pakai const. Karena const mengunci nilai, widget dengan nilai dinamis tidak cocok menggunakan const.
+    - Incompatibility with Late Changes: Kalau ada kemungkinan besar bahwa widget akan diubah atau dibangun ulang secara dinamis, const nggak diperlukan.
+
+
+**2. Jelaskan dan bandingkan penggunaan Column dan Row pada Flutter. Berikan contoh implementasi dari masing-masing layout widget ini!**
+
+- Column :
+    Column adalah widget yang menata anak-anaknya (child widgets) dari atas ke bawah. Ini cocok digunakan saat kita ingin menyusun elemen secara bertumpuk, seperti daftar item atau teks dengan ikon di bawahnya.
+
+    - Implementasi:
+    ```dart
+    Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+            Text('Hello, world!'),
+            Icon(Icons.star, color: Colors.amber),
+            Text('Welcome to Flutter!'),
+        ],
+        )
+    ```
+
+- Row :
+    Row digunakan untuk menyusun widget secara horizontal, dari kiri ke kanan. Ini ideal saat kita ingin menampilkan elemen-elemen yang sejajar, seperti ikon dengan teks di sebelah kanannya.
+
+    - Implementasi:
+    ```dart
+    Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+            Icon(Icons.favorite, color: Colors.pink),
+            Text('Flutter is awesome!'),
+            Icon(Icons.thumb_up, color: Colors.blue),
+        ],
+        )
+    ```
+
+| Perbandingan         | Column                                      | Row                                      |
+|----------------------|---------------------------------------------|------------------------------------------|
+| **Arah Layout**      | Vertikal (atas ke bawah)                    | Horizontal (kiri ke kanan)               |
+| **Properti Utama**   | `mainAxisAlignment`, `crossAxisAlignment`   | `mainAxisAlignment`, `crossAxisAlignment`|
+| **Contoh Penggunaan**| Tampilan daftar, teks bertumpuk             | Ikon dengan teks di sampingnya           |
+| **Cocok Untuk**      | Layout yang mengalir dari atas ke bawah     | Layout yang mengalir dari kiri ke kanan  |
+
+
+**3. Sebutkan apa saja elemen input yang kamu gunakan pada halaman form yang kamu buat pada tugas kali ini. Apakah terdapat elemen input Flutter lain yang tidak kamu gunakan pada tugas ini? Jelaskan!**
+
+Elemen Input yang Digunakan :
+1. TextFormField:
+
+    - Fungsi: Digunakan untuk memasukkan teks umum seperti nama produk, deskripsi, dan harga.
+    - Contoh Penggunaan di Form:
+        - Ada TextFormField untuk mengisi nama produk, dengan hintText dan labelText diset ke "Product Name".
+        - Variabel _name akan di-update ketika ada perubahan input, dan terdapat validator untuk memeriksa apakah nama produk tidak boleh kosong.
+
+Elemen Input Lain di Flutter yang Tidak Digunakan :
+1. Checkbox
+2. Radio
+3. Switch
+4. Slider
+5. DropdownButtonFormField
+6. DatePicker
+
+**4. Bagaimana cara kamu mengatur tema (theme) dalam aplikasi Flutter agar aplikasi yang dibuat konsisten? Apakah kamu mengimplementasikan tema pada aplikasi yang kamu buat?**
+
+- Bagaimana cara kamu mengatur tema (theme) dalam aplikasi Flutter agar aplikasi yang dibuat konsisten? 
+
+    Cara saya mengatur tema (theme) dalam aplikasi saya agar konsisten adalah menggunakan `ThemeData` didalam file `main.dart` untuk mengatur seluruh tema aplikasi yang saya buat. Contohnya ada pada di AppBar saya difile `productentry_form.dart` dan Drawer saya difile `left_drawer.dart`
+
+- Apakah kamu mengimplementasikan tema pada aplikasi yang kamu buat?
+    
+    Ya, saya mengimplementasikan tema berwarna merah pada aplikasi saya. Bisa dilihat pada `main.dart` saya sebagai berikut :
+    ```dart
+    theme: ThemeData(
+         colorScheme: ColorScheme.fromSwatch(
+                primarySwatch: Colors.red,
+          ).copyWith(secondary: Colors.redAccent[600]),
+          useMaterial3: true,
+    )
+    ```
+
+**5. Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?**
+
+Dengan membuat file baru didalam proyek saya yaitu `left_drawer.dart`. Pada file left_drawer.dart, terdapat penggunaan widget Drawer untuk menyediakan navigasi, yang digunakan sebagai panel navigasi samping. Dengan pendekatan ini, pengguna bisa mengakses beberapa halaman dari menu samping dan mengakses halaman lain seperti halaman utama dan halaman untuk menambahkan produk.
+
+</details>
