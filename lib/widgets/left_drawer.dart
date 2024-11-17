@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solely_sneakers_shop/screens/list_productentry.dart';
 import 'package:solely_sneakers_shop/screens/menu.dart';
 import 'package:solely_sneakers_shop/screens/productentry_form.dart';
 
@@ -53,7 +54,7 @@ class LeftDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.add_shopping_cart),
-            title: const Text('Tambah Item'),
+            title: const Text('Tambah Produk'),
             // Bagian redirection ke ProductEntryFormPage
             onTap: () {
               Navigator.pushReplacement(
@@ -64,6 +65,17 @@ class LeftDrawer extends StatelessWidget {
               );
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.list_alt_rounded),
+            title: const Text('Daftar Produk'),
+            onTap: () {
+                // Route menu ke halaman produk
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProductEntryPage()),
+                );
+            },
+        ),
         ],
       ),
     );
