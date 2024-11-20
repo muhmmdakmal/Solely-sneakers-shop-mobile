@@ -3,6 +3,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:solely_sneakers_shop/models/product_entry.dart';
 import 'package:solely_sneakers_shop/widgets/left_drawer.dart';
+import 'package:solely_sneakers_shop/screens/details_product.dart';
 
 class ProductEntryPage extends StatefulWidget {
   const ProductEntryPage({super.key});
@@ -63,13 +64,25 @@ class _ProductEntryPageState extends State<ProductEntryPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      GestureDetector(
+                        onTap: () {
+                          // Navigasi ke halaman detail product
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductDetailPage(product: snapshot.data![index]),
+                            ),
+                          );
+                        },
+                      child: Text(
                         "${snapshot.data![index].fields.name}",
                         style: const TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                    ),
                       const SizedBox(height: 10),
                       Text("${snapshot.data![index].fields.description}"),
                       const SizedBox(height: 10),

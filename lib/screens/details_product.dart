@@ -1,16 +1,47 @@
-// import 'package:flutter/material.dart';
-// import 'package:pbp_django_auth/pbp_django_auth.dart';
-// import 'package:provider/provider.dart';
-// import 'package:solely_sneakers_shop/models/product_entry.dart';
-// import 'package:solely_sneakers_shop/screens/list_productentry.dart';
+import 'package:flutter/material.dart';
+import 'package:solely_sneakers_shop/models/product_entry.dart';
 
-// class ProductDetailPage extends StatefulWidget {
-//   const ProductDetailPage({super.key});
+class ProductDetailPage extends StatelessWidget {
+  final ProductEntry product;
 
-//   @override
-//   State<ProductDetailPage> createState() => _ProductDetailPageState();
-// }
+  const ProductDetailPage({super.key, required this.product});
 
-// class _ProductDetailPageState extends State<ProductDetailPage>{
-
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(product.fields.name),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              product.fields.name,
+              style: const TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              "Price: \Rp.${product.fields.price}",
+              style: const TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              product.fields.description,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              product.fields.time.toString(),
+              style: const TextStyle(fontSize: 16),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
