@@ -348,3 +348,175 @@ Elemen Input Lain di Flutter yang Tidak Digunakan :
 Dengan membuat file baru didalam proyek saya yaitu `left_drawer.dart`. Pada file left_drawer.dart, terdapat penggunaan widget Drawer untuk menyediakan navigasi, yang digunakan sebagai panel navigasi samping. Dengan pendekatan ini, pengguna bisa mengakses beberapa halaman dari menu samping dan mengakses halaman lain seperti halaman utama dan halaman untuk menambahkan produk.
 
 </details>
+
+##
+<details>
+    <summary>Tugas 9: Integrasi Layanan Web Django dengan Aplikasi Flutter</summary>
+
+**1.Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?**
+
+1. Mempermudah Manipulasi Data
+
+    Model memberikan struktur yang jelas untuk data JSON. Ketika JSON diubah menjadi sebuah objek Dart, kita bisa langsung menggunakan properti dan metode objek tersebut tanpa harus mengakses data mentah (misalnya menggunakan string key seperti json['nama']). Ini membuat kode lebih mudah dibaca, dikelola, dan bebas dari typo.
+
+2. Menghindari Kesalahan Parsing Data
+
+    Dengan membuat model, kita dapat memvalidasi dan memastikan tipe data setiap atribut saat data JSON diparsing. Misalnya, jika server mengirim angka, tetapi kita salah menafsirkannya sebagai string, model akan membantu mendeteksi error tersebut.
+
+3. Reusabilitas dan Skalabilitas
+
+    Model bisa digunakan berulang kali di berbagai bagian aplikasi. Selain itu, jika struktur JSON berubah, kita hanya perlu memperbarui model, sehingga tidak perlu mengubah semua kode yang menggunakan data tersebut.
+
+4. Integrasi dengan Tools
+
+    Model membantu mengintegrasikan data dengan paket Flutter seperti provider atau bloc untuk state management, atau dengan alat seperti json_serializable untuk otomatisasi parsing JSON.
+
+- Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+
+    Tidak, namun ada resiko besar seperti:
+    
+    - Rentan Typo: Mengetik key JSON secara manual bisa menyebabkan error jika salah tulis atau jika struktur JSON berubah.
+    - Tipe Data Tidak Terkontrol: Anda harus melakukan banyak pengecekan manual pada tipe data (misalnya apakah sebuah nilai adalah integer, string, atau null).
+    - Kesulitan dalam Refactoring: Ketika aplikasi berkembang, sulit untuk melacak di mana saja key-key JSON digunakan, yang membuat perubahan pada struktur data menjadi berisiko.
+
+**2. Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini**
+
+- Mempermudah pengiriman permintaan HTTP, seperti GET, POST, PUT, DELETE, dan lainnya.
+
+- Package http menggunakan fitur Future di Dart untuk menangani proses request secara asynchronous, sehingga aplikasi tidak akan freeze saat menunggu respons dari server.
+
+**3. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.**
+
+**Fungsi dari CookieRequest**
+
+CookieRequest biasanya digunakan dalam aplikasi web untuk mengelola session cookies saat berkomunikasi dengan server. Dalam konteks Flutter, CookieRequest sering digunakan untuk:
+
+- Menyimpan dan Mengirim Cookies Secara Otomatis
+
+    CookieRequest menyimpan cookies dari respons server dan menggunakannya kembali untuk permintaan selanjutnya, memungkinkan server untuk mengenali pengguna (misalnya untuk sesi login).
+
+- Menangani Autentikasi
+    
+    Cookies sering digunakan sebagai mekanisme autentikasi. Setelah login berhasil, cookie autentikasi yang diterima dari server disimpan dan digunakan untuk otentikasi dalam permintaan berikutnya.
+
+- Meningkatkan Pengalaman Pengguna
+    
+    Dengan CookieRequest, pengguna tidak perlu login berulang kali karena sesi mereka disimpan dan dikelola oleh cookies.
+
+- Menjaga Keamanan
+    
+    Dengan cookie yang dikelola secara terpusat, aplikasi dapat memastikan bahwa hanya permintaan yang telah diautentikasi yang dapat mengakses endpoint tertentu.
+
+**Mengapa Instance CookieRequest Perlu Dibagikan ke Semua Komponen di Aplikasi?**
+
+1. Konsistensi Data Sesi
+    
+    Membagikan instance CookieRequest memungkinkan semua bagian aplikasi untuk menggunakan cookie yang sama. Hal ini penting agar semua komponen dapat mengenali pengguna dengan sesi yang sama.
+
+    Contoh:
+
+    - Jika pengguna login di satu layar, semua layar lain harus mengetahui bahwa pengguna sudah login.
+    - Semua permintaan HTTP setelah login harus menyertakan cookie autentikasi.
+
+2. Kemudahan Implementasi
+    
+    Dengan satu instance yang dibagikan, Anda tidak perlu membuat atau mengelola cookies di setiap komponen aplikasi. Ini menyederhanakan kode dan mencegah duplikasi.
+
+3. State Management Terintegrasi
+    
+    Instance CookieRequest yang dibagikan sering digunakan bersama framework state management seperti Provider, GetX, atau Riverpod untuk memastikan data sesi terdistribusi dengan baik di seluruh aplikasi.
+
+4. Menghindari Masalah Inkonsistensi
+    
+    Jika setiap komponen memiliki instance CookieRequest sendiri, cookies yang berbeda-beda akan disimpan, menyebabkan masalah autentikasi atau data yang tidak konsisten di aplikasi.
+
+**4. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.**
+
+1. Input Data dari User
+Data biasanya diambil melalui widget input seperti:
+- TextField atau TextFormField: Untuk teks input.
+- DropdownButton, Radio, atau Checkbox: Untuk pilihan.
+- GestureDetector atau Button: Untuk interaksi seperti klik.
+
+Contoh :
+
+    ```dart
+        TextField(
+    onChanged: (value) {
+        print(value); // Setiap perubahan teks akan dicetak.
+    },
+    )
+    ```
+
+2. Pengelolaan Data
+
+Setelah input diterima, data biasanya disimpan atau diolah menggunakan state management. Flutter menyediakan beberapa pendekatan untuk ini, seperti:
+
+- StatefulWidget (manajemen lokal).
+- Provider atau Riverpod (state management global).
+-  Bloc atau Cubit (manajemen berbasis event dan state).
+
+3. Pemrosesan Data
+
+Setelah data diterima, langkah berikutnya adalah memprosesnya. Pemrosesan ini bisa melibatkan:
+- Validasi (contoh: memastikan format email benar).
+- Transformasi (contoh: konversi teks ke angka).
+- Pengiriman ke backend (contoh: melalui HTTP menggunakan http package atau Dio).
+
+4. Menampilkan Data di UI
+
+    Data yang telah diproses atau diterima dari backend akan di-render kembali ke layar. Widget seperti Text, ListView, atau GridView sering digunakan.
+
+5. Render ke Layar
+Setelah data diproses, Flutter akan merender ulang UI menggunakan widget tree. Flutter menggunakan mekanisme:
+
+- Declarative UI: Perubahan data memicu rebuild widget.
+- Hot Reload: Memudahkan pengembangan dengan memperbarui UI tanpa memulai ulang aplikasi.
+
+**5. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.**
+
+1. Register
+- Flutter Side:
+    - User mengisi form registrasi (seperti username dan password) di aplikasi Flutter.
+    - Data dikirim ke backend Django menggunakan request HTTP (POST) ke endpoint /register.
+
+- Django Side:
+    - Endpoint /register di-backend menerima data.
+    - Backend memvalidasi data: apakah password cocok dan apakah username sudah ada.
+    - Jika validasi sukses, akun baru dibuat menggunakan User.objects.create_user
+
+2. Login
+- Flutter Side:
+    - User memasukkan username dan password.
+    - Flutter mengirim data ke backend melalui POST request ke endpoint /login.
+
+- Django Side:
+    - Endpoint /login menerima data username dan password.
+    - Fungsi authenticate memeriksa kredensial di database.
+    - Jika sukses, Django memanggil auth_login untuk membuat sesi pengguna.
+
+3. Logout
+- Flutter Side:
+    - User menekan tombol logout.
+    - Flutter mengirimkan request ke endpoint /logout.
+
+- Django Side:
+    - Endpoint /logout memanggil auth_logout untuk menghapus sesi pengguna.
+
+4. Menampilkan Menu Setelah Autentikasi
+- Flutter Side:
+    - Setelah login berhasil, Flutter menyimpan informasi pengguna (misalnya, token sesi atau data username).
+    - Halaman menu ditampilkan menggunakan Navigator.
+
+**6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).**
+1. Buat file register.dart dalam directory `register.dart`dan `login.dart`.
+2. Membuat modul baru di proyek django untuk autentikasi.
+3. Buat function untuk menghandle registrasi dan login.
+4. Lakukan routing di urls.py.
+5. Tambahkan modul autentikasi di settings.py proyek utama django.
+6. Untuk membuat model, kita menggunakan data json dari web dan mengambil model yang sudah terbuat dari web QuickType
+7. Buat directory baru bernama model dan buat file dart baru untuk models flutternya.
+8. Buat file dart baru di directory screens untuk menampilkan data yang dimasukkan.
+9. Buat file dart baru lagi di directroy screens untuk menampilkan detail data.
+
+</details>
